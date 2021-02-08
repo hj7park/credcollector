@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Cred List</h1>
+
+{% for cred in creds %}
+    <a href="{% url 'detail' cred.id %}">
+        <div class="card">
+            <div class="card-content">
+                <span class="card-title">{{ cred.account }}</span>
+                <p>Password: {{ cred.password }}</p>
+                <p>Description: {{ cred.description }}</p>
+            </div>
+        </div>
+    </a>
+{% endfor %}
+
+{% endblock %}

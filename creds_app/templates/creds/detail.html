@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<h1>Cred Details</h1>
+<div class="row">
+  <div class="col s6">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">{{ cred.account }}</span>
+        <p>Password: {{ cred.password }}</p>
+        <p>Description: {{ cred.description }}</p>
+      </div>
+      <div class="card-action">
+        <a href="{% url 'creds_update' cred.id %}">Edit</a>
+        <a href="{% url 'creds_delete' cred.id %}">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+<hr>
+<div class="row">
+  <div class="col s6">
+    {% if cred.url.count %}
+      {% for url in cred.url.all %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              <a href='{{ url.url }}'>{{ url.url }}</a>
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'removeUrlToCred' cred.id url.id %}" method="post">
+                {% csrf_token %}
+              <button type="submit" class="btn">Remove</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>Choose a URL</h5>
+    {% endif %}
+  </div>
+  <div class="col s6">
+    {% if urls.count %}
+      {% for url in urls %}
+        <div class="card">
+          <div class="card-content">
+            <span class="card-title">
+              <a href='{{ url.url }}'>{{ url.url }}</a>
+            </span>
+          </div>
+          <div class="card-action">
+            <form action="{% url 'addUrlToCred' cred.id url.id %}" method="post">
+                {% csrf_token %}
+              <button type="submit" class="btn">Add</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    {% else %}
+      <h5>No other URLS available</h5>
+    {% endif %}
+  </div>
+</div>
+
+
+{% endblock %}
